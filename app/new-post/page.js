@@ -31,8 +31,8 @@ export default function NewPostPage() {
 
         {state.errors && (
           <ul className="form-errors">
-            {state.errors.map((item) => (
-              <li key={item}>{item}</li>
+            {state.errors.map((item, index) => (
+              <li key={index}>{item}</li>
             ))}
           </ul>
         )}

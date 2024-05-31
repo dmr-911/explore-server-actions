@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { storePost, updatePostLikeStatus } from "../lib/posts";
 import { uploadImage } from "@/lib/cloudinary";
+import { revalidatePath } from "next/cache";
 
 export const createPostAction = async (prevState, formData) => {
   const title = formData.get("title");
@@ -38,10 +39,12 @@ export const createPostAction = async (prevState, formData) => {
     userId: 1,
   });
 
+  revalidatePath("/feed");
   redirect("/feed");
 };
 
 export const togglePostLikeStatus = async (postId, formData) => {
   // postId is from bind method
-  const response = updatePostLikeStatus(postId, 2);
+  await updatePostLikeStatus(postId, 2);
+  revalidatePath("/", "layout"); // performing all pages cache change (pessimistic data update)
 };
