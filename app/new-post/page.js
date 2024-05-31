@@ -1,7 +1,7 @@
 "use client";
 import { useFormState } from "react-dom";
 import FormSubmit from "@/components/form-submit";
-import { createPostAction } from "@/lib/formActions";
+import { createPostAction } from "@/actions/formActions";
 
 export default function NewPostPage() {
   const [state, modifiedAction] = useFormState(createPostAction, {});

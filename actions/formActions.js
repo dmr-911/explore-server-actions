@@ -1,13 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { storePost } from "./posts";
+import { storePost, updatePostLikeStatus } from "../lib/posts";
+import { uploadImage } from "@/lib/cloudinary";
 
 export const createPostAction = async (prevState, formData) => {
   const title = formData.get("title");
   const image = formData.get("image");
   const content = formData.get("content");
-  //   redirect("/feed");
 
   let errors = [];
 
@@ -25,12 +25,23 @@ export const createPostAction = async (prevState, formData) => {
     return { errors };
   }
 
+  let url;
+  try {
+    url = await uploadImage(image);
+  } catch (error) {
+    throw new Error("Image upload failed, post was not crated.");
+  }
   await storePost({
-    imageUrl: "",
+    imageUrl: url,
     title,
     content,
     userId: 1,
   });
 
   redirect("/feed");
+};
+
+export const togglePostLikeStatus = async (postId, formData) => {
+  // postId is from bind method
+  const response = updatePostLikeStatus(postId, 2);
 };
