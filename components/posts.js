@@ -21,12 +21,6 @@ export default function Posts({ posts }) {
 
       updatedPost.isLiked = !updatedPost.isLiked;
 
-      // const newPostsArr = prevPosts.map((post) => {
-      //   if (post.id === updatedPost.id) {
-      //     return updatedPost;
-      //   }
-      //   return post;
-      // }); // this function is quite slow
       const newPostsArr = [...prevPosts];
       newPostsArr[updatedPostIndex] = updatedPost;
 
